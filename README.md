@@ -1,17 +1,18 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-Acvnhrq)
 # Final Project
 
-**Team Number:**
+**Team Number:** T16
 
-**Team Name:**
+**Team Name:** Sewing Machine
 
-| Team Member Name | Email Address       |
-|------------------|---------------------|
-| [Name 1]         | [Email 1]           |
-| [Name 2]         | [Email 2]           |
-| [Name 3]         | [Email 3]           |
+| Team Member Name | Email Address             |
+|------------------|---------------------------|
+| Chris Chen       | chrisc05@seas.upenn.edu   |
+| Ivy Jiang        | ivyjiang@seas.upenn.edu   |
+| Evelyn Li        | eli22@seas.upenn.edu      |
+| Daniel Lin       | dl1n@seas.upenn.edu       |
 
-**GitHub Repository URL:**
+**GitHub Repository URL:** https://github.com/upenn-embedded/final-project-s26-t16-new
 
 **GitHub Pages Website URL:** [for final submission]*
 

@@ -1,17 +1,18 @@
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/-Acvnhrq)
 # Final Project
 
-**Team Number:**
+**Team Number:** T16
 
-**Team Name:**
+**Team Name:** Sewing Machine
 
-| Team Member Name | Email Address       |
-|------------------|---------------------|
-| [Name 1]         | [Email 1]           |
-| [Name 2]         | [Email 2]           |
-| [Name 3]         | [Email 3]           |
+| Team Member Name | Email Address             |
+|------------------|---------------------------|
+| Chris Chen       | chrisc05@seas.upenn.edu   |
+| Ivy Jiang        | ivyjiang@seas.upenn.edu   |
+| Evelyn Li        | eli22@seas.upenn.edu      |
+| Daniel Lin       | dl1n@seas.upenn.edu       |
 
-**GitHub Repository URL:**
+**GitHub Repository URL:** https://github.com/upenn-embedded/final-project-s26-t16-new
 
 **GitHub Pages Website URL:** [for final submission]*
 
@@ -19,56 +20,127 @@
 
 ### 1. Abstract
 
+Our final project is a smart sewing machine with a wireless foot pedal and built-in thread usage tracking. The wireless pedal will use a pressure sensor to detect how hard the user is pressing and send that input to the sewing machine, which will adjust motor speed in real time. A second part of the system will track spool or shaft rotation to estimate how much thread remains and display that information to the user on an OLED or other indicator. Overall, the project combines wireless communication, sensor input, motor control, and user feedback into one integrated embedded system.
+
 ### 2. Motivation
+
+Conventional sewing machines usually use wired pedals and provide limited real-time information about machine operation. This creates usability limitations, including restricted pedal placement and difficult portability. Furthermore, there is no clear indication of the remaining thread or machine state. This is especially annoying when sewing complex pieces; users have to guess and check when to replace bobbin and spool thread and precision is limited by eyeballing. Our project addresses this by adding a wireless pressure-sensitive pedal and a sensing system that estimates thread usage during operation.
+This project is interesting because it requires real-time interaction between mechanical and embedded subsystems. The device must sense pedal pressure, filter and transmit the input, adjust motor speed, count machine rotations, and provide output through a display or indicators. The intended purpose is to build a more flexible and informative sewing machine system that improves user control while demonstrating strong embedded system integration.
+It is also just cool because some members in our group love to sew and the chain locking mechanism is a marvel in itself, so it could be a cool mechanism to figure out. 
 
 ### 3. System Block Diagram
 
+![alt text](images/image.png)
+
+We will need to 3D print the sewing machine components. Further, for the body and internal support of the machine, we will need power tools to cut it out of wood or acrylic. 
+
 ### 4. Design Sketches
+
+![alt text](images/image1.png)
 
 ### 5. Software Requirements Specification (SRS)
 
-**5.1 Definitions, Abbreviations**
+**Pedal Pressure to Speed Mapping**  
+The pedal MCU reads pressure and maps it to motor speed (higher pressure → higher speed).  
+Validation: Apply ≥5 pressure levels and verify speed increases monotonically.
 
-Here, you will define any special terms, acronyms, or abbreviations you plan to use for hardware
+**Wireless Command Transmission**  
+The pedal MCU sends speed commands wirelessly to the sewing machine MCU.  
+Validation: Perform ≥20 trials with ≥95% successful reception and response.
 
-**5.2 Functionality**
+**Real-Time Motor Control** 
+The machine MCU adjusts motor speed based on pedal input.  
+Validation: Test ≥5 inputs and verify speed settles within 2 s.
 
-| ID     | Description                                                                                                                                                                                                              |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds                                                                                                                 |
-| SRS-02 | The distance sensor shall operate and report values at least every .5 seconds.                                                                                                                                           |
-| SRS-03 | Upon non-nominal distance detected (i.e., the trap mechanism has changed at least 10 cm from the nominal range), the system shall be able to detect the change and alert the user in a timely manner (within 5 seconds). |
-| SRS-04 | Upon a request from the user, the system shall get an image from the internal camera and upload the image to the user system within 10s.                                                                                 |
+**Rotation Counting**  
+The MCU tracks rotations using an encoder, Hall, or optical sensor.  
+Validation: Compare measured vs. actual rotations with ≤5% error.
+
+**Thread Estimation**  
+Remaining thread is estimated from rotation count and spool geometry.  
+Validation: Compare estimate vs. expected value with ≤10% error.
+
+**User Feedback**  
+System provides status via LED/OLED (power, thread, state).  
+Validation: Verify LED power indication and display updates during operation.
+
+**Chain Stitch Mechanism**  
+The mechanism produces a continuous chain stitch.  
+Validation: Test on fabric and verify stitch remains continuous.
+
+**Power Transmission**  
+Motor drives stitching mechanism without slip or stall.  
+Validation: Test across speed range and verify consistent motion.
+
+**Frame Stability**  
+Structure remains stable during operation.  
+Validation: Run for several minutes and check for vibration or loosening.
+
+**Pedal Usability**  
+Pedal supports repeated presses and returns to neutral.  
+Validation: Perform ≥50 cycles and verify consistent return and integrity.
+
+**Spool Support**  
+Spool rotates smoothly and remains mounted.  
+Validation: Run repeated tests and verify no jamming or detachment.                                                                     |
 
 ### 6. Hardware Requirements Specification (HRS)
 
-**6.1 Definitions, Abbreviations**
+**Wireless Foot Pedal Hardware**  
+The system includes a portable foot pedal with an embedded pressure sensor and microcontroller to detect user input and transmit speed commands wirelessly.  
+Validation: Apply repeated low, medium, and high pressure inputs and verify that the pedal produces distinct sensor readings and successfully transmits commands.
 
-Here, you will define any special terms, acronyms, or abbreviations you plan to use for hardware
+**Dual-MCU Architecture**  
+The system uses two separate microcontrollers: one in the wireless pedal for pressure sensing and transmission, and one on the sewing machine for motor control, display output, and spool/thread monitoring.  
+Validation: Test each MCU separately, then validate the full system by confirming that pedal input is received and acted on by the machine-side MCU.
 
-**6.2 Functionality**
+**Motor Drive Hardware**  
+The sewing machine includes a motor and motor driver capable of rotating the stitching mechanism at variable speeds based on pedal input.  
+Validation: Operate the motor at multiple commanded speeds and verify continuous rotation and response to speed changes without stalling under normal operation.
 
-| ID     | Description                                                                                                                        |
-| ------ | ---------------------------------------------------------------------------------------------------------------------------------- |
-| HRS-01 | A distance sensor shall be used for obstacle detection. The sensor shall detect obstacles at a maximum distance of at least 10 cm. |
-| HRS-02 | A noisemaker shall be inside the trap with a strength of at least 55 dB.                                                           |
-| HRS-03 | An electronic motor shall be used to reset the trap remotely and have a torque of 40 Nm in order to reset the trap mechanism.      |
-| HRS-04 | A camera sensor shall be used to capture images of the trap interior. The resolution shall be at least 480p.                       |
+**Rotation Sensing Hardware**  
+The machine includes a sensor, such as an encoder, Hall-effect sensor, or optical sensor, to detect spool or shaft rotation for thread-usage estimation.  
+Validation: Rotate the shaft or spool through a known number of turns and verify that the sensor output matches the actual number of rotations.
+
+**User Feedback Hardware**  
+The system includes at least one output device to indicate machine status, such as an OLED display or LED indicators.  
+Validation: Power on the system and confirm that the display or indicators activate correctly and update during operation.
+
+**Power System**  
+The device includes a power source and regulation hardware capable of safely powering both microcontrollers, the wireless pedal, sensors, display, and motor-driving circuitry.  
+Validation: Run the full system under normal operation and verify that all components remain powered and functional without unintended resets or brownouts.
+
+**Pressure Sensor Resolution**  
+The foot pedal pressure sensor provides enough range to distinguish at least three input levels: low, medium, and high pressure.  
+Validation: Record sensor outputs at different applied pressures and confirm that the three levels are clearly distinguishable.
 
 ### 7. Bill of Materials (BOM)
+[BOM](https://docs.google.com/spreadsheets/u/1/d/1LjAFRgd7g9gQXnkkUFB2_QBa0-whRiNNrxztL-SXp3Q/edit?usp=sharing)   
+
+First, the source of our compute/signal processing for this project is the ATmega328PB XPlained mini board. This is ideal because it provides sufficient compute for processing of simple sensor data, is cheap and highly flexible when tuned with baremetal code. To facilitate wireless communication between two of these boards, a Feather ESP32 Wi-Fi module will be connected to each MCU. This is preferred because the Feathers provide bluetooth capabilities that are ideal for short distance, light-weight communication. They also provide access to wifi which gives us the flexibility of incorporating data storage, and IOT with this system without requiring significant changes in storage.
+For our power source, we will utilize 3 sources in our testing phase. A 5V power bank will be utilized to power our foot pedal. A power bank is preferred because they have built in power regulation and are small and portable which is the entire purpose of having a detached foot pedal. 5V adapters plugged into the walls will be used to power the peripherals on the sewing machine side. For the motor, a separate 12V supporting 2A power adapter plugged into the wall will be used. We want to separate the power supply of the motor from the peripherals because the motor can cause significant current/voltage spikes.
+Our pedal must be able to distinguish between multiple states which we do using a pressure sensor. We chose the FSR 402 because it has a sensing range of 0.3N to 150N which is the relative range that makes the pedal easy to control and not require too much force. The sensor is also durable supporting 10 million + actuations and has mm thickness. 
+For our motor, we choose the FIT0493 motor because it is relatively inexpensive, contains a built in encoder, supports PWM and should have more than enough torque at 12kg/cm. It takes 12V and draws a max current of 1.65A. Our motor driver supports this by being able to provide up to 3A. This is all supported by our 12V adapter. 
+We also require an LCU to display information to the user. In all honesty, the specs for this are unimportant for the operation of the device as long as SPI communication is supported. 
+We also use a hall-effect latch for spool rotation tracking rather than an optical sensor because sewing might produce significant debris and a magnetic sensor handles that well. Our chosen sensor takes in 5V and only requires 5mA to operate which matches well within the rest of the system.
 
 
 ### 8. Final Demo Goals
 
+Will it be strapped to a person, mounted on a bicycle, or require outdoor space?
+* It is a standalone machine with a portable foot pedal and connected to a battery, so no need to be strapped to anything or anyone.
+
+Think of any physical, temporal, and other constraints that could affect your planning.
+* Some constraints that can affect planning is that a sewing machine isn’t something that we can fit in a bag; it is quite big, so storage could be a constraint as well as methods to transport the parts back and forth. 
 
 ### 9. Sprint Planning
 
-| Milestone  | Functionality Achieved | Distribution of Work |
-| ---------- | ---------------------- | -------------------- |
-| Sprint #1  |                        |                      |
-| Sprint #2  |                        |                      |
-| MVP Demo   |                        |                      |
-| Final Demo |                        |                      |
+How will you plan your sprint milestones?
+* We will plan our sprint milestones as semi-long term goals. Focus on 1-2 big goals max and separate into 2 person groups to complete mini parts that work up to completing the overarching goal. For example if the unit time is 1 week, we will have the goal we want completed by the end of the week defined clearly. After defining this goal, define the sub goals that will be completed to complete the overall goal. Then, block out specific time blocks throughout the week to fulfill each goal. Finally, leave a few hours in case some tasks take longer than anticipated. 
+
+How will you distribute the work within your team?
+* Everyone will be present when planning the sprints. We will just discuss which work we want to do and split accordingly. Nothing will be assigned without approval and we will discuss during in person sprint planning and over text for unanticipated tasks that come up.
+
 
 **This is the end of the Project Proposal section. The remaining sections will be filled out based on the milestone schedule.**
 

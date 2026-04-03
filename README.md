@@ -76,10 +76,41 @@ Here, you will define any special terms, acronyms, or abbreviations you plan to 
 ## Sprint Review #1
 
 ### Last week's progress
+This past week, we finalized BOMed (and order), worked on an intial physical CAD (and sent out to print) and wrote an inital version of the embedded code for the foot pedal system.
+
+In terms of the BOM, the biggest change we made compared to the inital write up was we switchd the force sensor to a different model with a larger surface area for ease of integration and use. We also realized the power adapter we were planning on using does not source enough current to account for spikes in the motor so we made changes to this. 
+
+![alt text](bom_wk1.png)
+
+In terms code for the foot pedal, we have written and tested the functionality for measuring and reading the force from the sensor. This is the core of the control system. 
+
+![alt text](code-wk1.png)
+
+For the physical CAD, we started from example CAD models on the internet and made the necessary adjustments to incorporate our components and detach the foot pedal from the rest of the machine to make our design more convenient and portable. Some of our components that we sent for printing are shone below.
+
+![alt text](cad_photo_wk1.png)
+
+Finally, we met as a team and aligned on direction and plans/goals for next week. 
 
 ### Current state of project
+Currently, the project is off to a good start. We have a very basic preliminary MVP of our "foot-pedal" system (both circuit and code) which is a core part of the project that will ultimately allow the user to control the sewing machine. We also have a first version for the gears and enclosure of the sewing machine. 
+
+Right now, the biggest bottleneck is just waiting for components to come in. That is, we have ordered electronic parts and are awaiting those to ship. We have also sent out 3D print jobs to RPL and are waiting for the first print to come back so we can iterate. The reason we want to the physical enclosure to come right now 1. printing takes a long time and 2. we want to make sure the elecontric components fit within the mechanical CAD and the gear works as expected. 
+
+In the meantime we are able to progress with components that are in Detkin. Some of these are parts we will use in our final version (feather, LCD screen, Hall sensor etc.) and some are alternate versions we are just using for test (force sensor, small motor)
 
 ### Next week's plan
+Estimated time: 2 hours 
+Assigned: Daniel, Chris 
+
+Finalize foot-pedal subsystem - stress test code, integrate feather for wifi communication, integrate LCD screen displaying status. Being done means have a working system that consistently measures accurate pressue, is able to send it wirelessly and display it visually. Provided 3D print finishes in time, we also want to have this integrated. This group will also be responsible for following up with the 3D print and ensuring all components are printed/accounted for.
+
+Estimated time: 2 hours
+Assigned: Evelyn, Ivy
+
+Begin the code and electronics to measure the amount of yarn left/used. This will mean building and testing the hall sensor electroncs and writing the code to support this. We also want to integrate feather for wifi communication on the ATMega connected to this system. Being done means having a hall sensor that can accurate measure rotations and communicte that via wifi. 
+
+*Note: not too much work assigned for this sprint due to midterms and team plans to meet for long work session the Sunday immediately after Sprint 2 is due. 
 
 ## Sprint Review #2
 

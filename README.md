@@ -186,10 +186,16 @@ Begin the code and electronics to measure the amount of yarn left/used. This wil
 ## Sprint Review #2
 
 ### Last week's progress
+This past week, we wrote code to verify the functionality of the hall-effect sensor and partially assembled our mechanical sewing machine. We re-CAD'd/ordered additional parts based on first iteration assemblies. We also cadded the enclosure for the foot pedal sensor and MCU. 
 
 ### Current state of project
 
 ### Next week's plan
+
+Assigned: Evelyn, Ivy, Daniel, Chris
+Estimated time: 8 hours
+
+We will fully assemble the sewing machine and test to see if the motor can move the machine. We will also attach the hall sensor and magnet to the spool in order to measure rotations. We will also connect the LCD screen so that it displays rotations. 
 
 ## MVP Demo
 

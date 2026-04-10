@@ -186,16 +186,39 @@ Begin the code and electronics to measure the amount of yarn left/used. This wil
 ## Sprint Review #2
 
 ### Last week's progress
-This past week, we wrote code to verify the functionality of the hall-effect sensor and partially assembled our mechanical sewing machine. We re-CAD'd/ordered additional parts based on first iteration assemblies. We also cadded the enclosure for the foot pedal sensor and MCU. 
+This past week, we wrote code to verify the functionality of the hall-effect sensor set up the circuitry. The hall effect is up and functional.
+
+![alt text](sprint2-hall.png)
+
+ We also partially assembled our mechanical sewing machine.
+ ![alt text](sprint2-1.jpeg)
+ 
+  We re-CAD'd/ordered additional parts based on first iteration assemblies. We realized we need metal rods to support the physicaly sewing machine and act as axels for spinning parts. The power supply we ordered was also missing part of the adpater so we reordered this too.
+  
+  We also cadded the enclosure for the foot pedal sensor and MCU. 
+  [text](sprint2-3.heic)
+
+  Our motor driver came so we created a basic test circuit and verified that it works by driving a PWM signal using the detkin power supplies.
+  [text](sprint2-2.heic)
 
 ### Current state of project
+
+    I think currently we are on good pace. The hall effect sensor, motor, force sensor all have rough, working versions set up. The next step will be to polish up code a bit more and connect all these sections together via the ESP-32. We wanted to get this done last week, but we realized this is lower priority because other tasks require more iteration and may require ordering of additional parts + 3D printing new components which has a longer lead time. 
+
+    The biggest current roadblocks are 1. we are waiting for metal rods to come in so that we can finish the mechanial assembly of our sewing machine. We are also waiting for the new power adpater head to come in so that we can test the operation of our project without relying on the power supply. 
+
+    In the meantime, we will keep testing and integrating using the detkin power supply. We have also 3D printed rods that we can use for now while we wait for the metal rods to come in. 
+
+
 
 ### Next week's plan
 
 Assigned: Evelyn, Ivy, Daniel, Chris
 Estimated time: 8 hours
 
-We will fully assemble the sewing machine and test to see if the motor can move the machine. We will also attach the hall sensor and magnet to the spool in order to measure rotations. We will also connect the LCD screen so that it displays rotations. 
+We will fully assemble the sewing machine and test to see if the motor can move the machine. We will also attach the hall sensor and magnet to the spool in order to measure rotations. We will also connect the LCD screen so that it displays rotations.
+
+Overall, we want to polish the different electrical subsystems and integrate them together and support wireless communication. We hope to be ready for the MVP!
 
 ## MVP Demo
 

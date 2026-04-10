@@ -195,7 +195,7 @@ This past week, we wrote code to verify the functionality of the hall-effect sen
 Assigned: Evelyn, Ivy, Daniel, Chris
 Estimated time: 8 hours
 
-We will fully assemble the sewing machine and test to see if the motor can move the machine. We will also attach the hall sensor and magnet to the spool in order to measure rotations. We will also connect the LCD screen so that it displays rotations. 
+We will fully assemble the sewing machine and test to see if the motor can move the machine. We will also attach the hall sensor and magnet to the spool in order to measure rotations. We will also connect the LCD screen so that it displays rotations. We will make the Wifi work from foot pedal to main sewing machine. 
 
 ## MVP Demo
 

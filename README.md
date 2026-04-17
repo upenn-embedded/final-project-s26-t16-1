@@ -222,6 +222,18 @@ Overall, we want to polish the different electrical subsystems and integrate the
 
 ## MVP Demo
 
+### Last week's progress
+
+Last week we built out the mechanical portions of the sewing machine and got the pressure sensor to spin the motor. We have code on both microcontrollers and Wi-Fi communication between those two. 
+
+### Current state of project
+
+We are in good shape for the final demo. Almost everything works functionally except for the display and hall effect sensor for telemetry which is a stretch goal that we can work on in the following week. 
+
+### Next week's plan
+
+We will integrate the display and hall effect sensor for telemetry into the sewing machine and integrate it into existing code. Since we've finished a rough MVP for this week, we can now work on polishing the circuit boards -- soldering rather than using breadboards -- as well as making our code readable and modularized. 
+
 ## Final Report
 
 Don't forget to make the GitHub pages public website!

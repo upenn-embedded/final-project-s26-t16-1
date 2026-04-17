@@ -222,9 +222,31 @@ Overall, we want to polish the different electrical subsystems and integrate the
 
 ## MVP Demo
 
-### Last week's progress
+### 1. Show a system block diagram & explain the hardware implementation.
+![mvpblock](mvpblock.png)
 
-Last week we built out the mechanical portions of the sewing machine and got the pressure sensor to spin the motor. We have code on both microcontrollers and Wi-Fi communication between those two. 
+### 2. Explain your firmware implementation, including application logic and critical drivers you’ve written.
+For firmware, we implemented the embedded control stack across two microcontrollers that coordinate the sewing machine. On the pedal-side controller, Daniel wrote ADC sensing logic to continuously sample the pressure sensor, filter readings, and convert force input into a speed command. We then built the wireless communication layer using ESP-NOW/Wi-Fi to transmit pedal data with low latency and confirm successful packet delivery.
+
+On the sewing-machine controller, we developed/used existing UART drivers and wrote parsing logic to receive commands from the wireless bridge, then used that data for real-time motor control so pedal pressure directly maps to motor speed. Also wrote application logic for telemetry peripherals, including Hall-effect sensor (showing that we can sense change but haven't fully done rotation counting yet) for thread usage estimation and display update routines for user feedback, but these haven't been fully integrated as they were secondary priorities. 
+
+### 3. Demo your device.
+Showing a TA + will record. 
+
+### 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
+Yes, we've achieved all our SRS except that telemetry which is on its way to being done. 
+
+### 5. Have you achieved some or all of your Hardware Requirements Specification (HRS)?
+Yes, we've fully built out our sewing machine and all parts are integrated into the system. 
+
+### 6. Show off the remaining elements that will make your project whole: mechanical casework, supporting graphical user interface (GUI), web portal, etc.
+Mostly just telemetry. 
+
+### 7. What is the riskiest part remaining of your project?
+Stress testing and making sure we don't break the machine.
+
+### 8. What questions or help do you need from the teaching team?
+None as of now. Just maybe how to improve?
 
 ### Current state of project
 
@@ -233,6 +255,8 @@ We are in good shape for the final demo. Almost everything works functionally ex
 ### Next week's plan
 
 We will integrate the display and hall effect sensor for telemetry into the sewing machine and integrate it into existing code. Since we've finished a rough MVP for this week, we can now work on polishing the circuit boards -- soldering rather than using breadboards -- as well as making our code readable and modularized. 
+
+Also we would like to stress test our machine to make sure it won't break on Demo Day. 
 
 ## Final Report
 

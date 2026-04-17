@@ -243,6 +243,8 @@ On the sewing-machine controller, we developed/used existing UART drivers and wr
 
 Showing a TA + will record.
 
+[20260417_113638_IMG_5753.MOV](assets/20260417_113638_IMG_5753.MOV)
+
 ### 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
 Yes, we've achieved all our SRS except that telemetry which is on its way to being done.
@@ -261,7 +263,7 @@ We need to put the electronics on the sewing machine and figure out how to wire 
 
 ### 7. What is the riskiest part remaining of your project?
 
-Stress testing and making sure we don't break the machine as well as making sure all parts stay in tact when rewiring and integrating into the machine. 
+Stress testing and making sure we don't break the machine as well as making sure all parts stay in tact when rewiring and integrating into the machine.
 
 ### 8. What questions or help do you need from the teaching team?
 

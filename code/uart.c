@@ -11,9 +11,8 @@ void uart_init()
     UBRR0L = (unsigned char)UART_BAUD_PRESCALER;
     //Enable receiver and transmitter
     UCSR0B = (1<<RXEN0)|(1<<TXEN0);
-    /* Set frame format: 2 stop bits, 8 data bits */
+    /* Set frame format: 1 stop bit, 8 data bits to match ESP32 SERIAL_8N1 */
     UCSR0C = (1<<UCSZ01) | (1<<UCSZ00); // 8 data bits
-    UCSR0C |= (1<<USBS0); // 2 stop bits
     
     __init_stdout(uart_send);
     __init_stdin(uart_receive);

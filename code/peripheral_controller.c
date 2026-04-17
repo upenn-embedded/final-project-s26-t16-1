@@ -1,51 +1,125 @@
-#define F_CPU 16000000UL
+#include <esp_now.h>
+#include <WiFi.h>
+#include <HardwareSerial.h>
+#include <ctype.h>
 
-#include <avr/io.h>
-#include <stdio.h>
-#include <util/delay.h>
-#include "uart.h"
+typedef struct struct_message {
+    uint16_t adcValue;
+} struct_message;
 
-// Initialize Timer0 for 8-bit Fast PWM on PD5
-void PWM_Init_PD5() {
-    // Set PD5 (OC0B) as an output pin
-    DDRD |= (1 << DDD5);
+struct_message myData;
 
-    // Mode 3: Fast PWM (Top at 0xFF / 255)
-    // WGM01=1, WGM00=1
-    // COM0B1: Non-inverting PWM on OC0B (PD5)
-    TCCR0A = (1 << COM0B1) | (1 << WGM01) | (1 << WGM00);
-    
-    // CS01: Prescaler of 8
-    TCCR0B = (1 << CS01); 
+HardwareSerial ATmegaSerial(1);
+#define ATMEGA_RX_PIN 14
+#define ATMEGA_TX_PIN 33
+
+uint8_t broadcastAddress[] = {0xF0, 0x24, 0xF9, 0x97, 0xD7, 0x88};
+
+char lineBuf[64];
+size_t linePos = 0;
+
+void OnDataSent(const wifi_tx_info_t *info, esp_now_send_status_t status) {
+    Serial.print("Send Status: ");
+    Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Success" : "Fail");
 }
 
-void Set_Motor_Speed_PD5(uint16_t adc_value) {
-    // ADC is 10-bit (0-1023), Timer0 is 8-bit (0-255).
-    // Divide by 4 to scale the value correctly.
-    uint8_t duty = (uint8_t)(adc_value >> 2);
-    
-    // OCR0B controls the duty cycle on PD5
-    OCR0B = duty;
+bool extractFirstUInt16(const char *s, uint16_t &outVal) {
+    while (*s && !isdigit((unsigned char)*s)) {
+        s++;
+    }
+
+    if (!*s) {
+        return false;
+    }
+
+    char *endptr;
+    long parsed = strtol(s, &endptr, 10);
+
+    if (endptr == s || parsed < 0 || parsed > 65535) {
+        return false;
+    }
+
+    outVal = (uint16_t)parsed;
+    return true;
 }
 
-int main(void) {
-    uart_init();      // Redirects stdin/stdout
-    PWM_Init_PD5();   // Setup Timer0 on PD5
+void setup() {
+    Serial.begin(115200);
+    delay(500);
 
-    int receivedValue = 0;
-`
-    printf("Motor Controller (PD5) Online.\n");
+    Serial.println();
+    Serial.println("Starting Feather UART + ESP-NOW bridge...");
 
-    while (1) {
-        // uart_scanf uses the logic in your uart.c to grab the number
-        uart_scanf("%d", &receivedValue);
+    ATmegaSerial.begin(9600, SERIAL_8N1, ATMEGA_RX_PIN, ATMEGA_TX_PIN);
 
-        if (receivedValue < 0) receivedValue = 0;
-        
-        // Scale and update PWM
-        Set_Motor_Speed_PD5((uint16_t)receivedValue);
+    WiFi.mode(WIFI_STA);
 
-        // Debug back to PC via ESP32
-        printf("Received: %d -> Duty: %d/255\n", receivedValue, (receivedValue >> 2));
+    if (esp_now_init() != ESP_OK) {
+        Serial.println("Error initializing ESP-NOW");
+        return;
+    }
+
+    esp_now_register_send_cb(OnDataSent);
+
+    esp_now_peer_info_t peerInfo = {};
+    memcpy(peerInfo.peer_addr, broadcastAddress, 6);
+    peerInfo.channel = 0;
+    peerInfo.encrypt = false;
+
+    if (esp_now_add_peer(&peerInfo) != ESP_OK) {
+        Serial.println("Failed to add peer");
+        return;
+    }
+
+    Serial.println("Peripheral Controller Initialized.");
+}
+
+void loop() {
+    while (ATmegaSerial.available()) {
+        char c = ATmegaSerial.read();
+
+        if (c == '\r') {
+            continue;
+        }
+
+        if (c == '\n') {
+            lineBuf[linePos] = '\0';
+
+            Serial.print("RAW LINE: [");
+            Serial.print(lineBuf);
+            Serial.println("]");
+
+            uint16_t parsedValue;
+            if (linePos > 0 && extractFirstUInt16(lineBuf, parsedValue)) {
+                myData.adcValue = parsedValue;
+
+                Serial.print("Sending ADC: ");
+                Serial.println(myData.adcValue);
+
+                esp_err_t result = esp_now_send(
+                    broadcastAddress,
+                    (uint8_t *)&myData,
+                    sizeof(myData)
+                );
+
+                if (result != ESP_OK) {
+                    Serial.print("esp_now_send error: ");
+                    Serial.println(result);
+                }
+            } else {
+                Serial.println("Parse error: no valid integer found.");
+            }
+
+            linePos = 0;
+        } else {
+            if (linePos < sizeof(lineBuf) - 1) {
+                lineBuf[linePos++] = c;
+            } else {
+                Serial.println("UART line too long, clearing buffer.");
+                linePos = 0;
+            }
+        }
     }
 }
+
+

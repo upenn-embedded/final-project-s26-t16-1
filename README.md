@@ -240,7 +240,7 @@ Yes, we've achieved all our SRS except that telemetry which is on its way to bei
 Yes, we've fully built out our sewing machine and all parts are integrated into the system. 
 
 ### 6. Show off the remaining elements that will make your project whole: mechanical casework, supporting graphical user interface (GUI), web portal, etc.
-Mostly just telemetry. 
+Mostly just telemetry which means setting up an LCD display (similar to Lab 4 Pong) and feeding spool count data into it. 
 
 ### 7. What is the riskiest part remaining of your project?
 Stress testing and making sure we don't break the machine.
@@ -251,6 +251,9 @@ None as of now. Just maybe how to improve?
 ### Current state of project
 
 We are in good shape for the final demo. Almost everything works functionally except for the display and hall effect sensor for telemetry which is a stretch goal that we can work on in the following week. 
+
+![mvpelectronics](mvpelectronics.JPG)
+![machine_assembly](machine_assembly.JPG)
 
 ### Next week's plan
 

@@ -1,124 +1,63 @@
-#include <esp_now.h>
-#include <WiFi.h>
-#include <HardwareSerial.h>
-#include <ctype.h>
+/* * Project: ATmega328PB to ESP32 ADC Bridge
+ * File: main.c
+ */
 
-typedef struct struct_message {
-    uint16_t adcValue;
-} struct_message;
+#define F_CPU 16000000UL
+#include <avr/io.h>
+#include <util/delay.h>
+#include <stdio.h>
+#include "uart.h"
 
-struct_message myData;
-
-HardwareSerial ATmegaSerial(2);
-#define ATMEGA_RX_PIN 14
-#define ATMEGA_TX_PIN 32
-
-uint8_t broadcastAddress[] = {0x60, 0x55, 0xF9, 0xEB, 0xDE, 0x68};
-
-char lineBuf[64];
-size_t linePos = 0;
-
-void OnDataSent(const wifi_tx_info_t *info, esp_now_send_status_t status) {
-    Serial.print("Send Status: ");
-    Serial.println(status == ESP_NOW_SEND_SUCCESS ? "Success" : "Fail");
+/**
+ * Initialize ADC0 (PC0)
+ * Uses AVCC as reference, 128 prescaler for 16MHz clock
+ */
+void adc_init(void) {
+    // REFS0: Use AVCC (5V or 3.3V depending on your board)
+    // MUX3..0: 0000 for ADC0 (PC0)
+    ADMUX = (1 << REFS0);
+    
+    // ADEN: Enable ADC
+    // ADPS2..0: Prescaler 128 (16MHz / 128 = 125KHz)
+    ADCSRA = (1 << ADEN) | (1 << ADPS2) | (1 << ADPS1) | (1 << ADPS0);
 }
 
-bool extractFirstUInt16(const char *s, uint16_t &outVal) {
-    while (*s && !isdigit((unsigned char)*s)) {
-        s++;
-    }
-
-    if (!*s) {
-        return false;
-    }
-
-    char *endptr;
-    long parsed = strtol(s, &endptr, 10);
-
-    if (endptr == s || parsed < 0 || parsed > 65535) {
-        return false;
-    }
-
-    outVal = (uint16_t)parsed;
-    return true;
+/**
+ * Read 10-bit value from ADC0
+ */
+uint16_t adc_read(void) {
+    // Start conversion
+    ADCSRA |= (1 << ADSC);
+    
+    // Wait for conversion to complete
+    while (ADCSRA & (1 << ADSC));
+    
+    // Return the result (ADC register contains ADCL + ADCH)
+    return ADC;
 }
 
-void setup() {
-    Serial.begin(115200);
-    delay(500);
+int main(void) {
+    // Initialize your UART library
+    // This calls __init_stdout so printf works
+    uart_init();
+    
+    // Initialize the ADC
+    adc_init();
 
-    Serial.println();
-    Serial.println("Starting Feather UART + ESP-NOW bridge...");
+    while (1) {
+        // Get the value from PC0
+        uint16_t sensorValue = adc_read();
 
-    ATmegaSerial.begin(9600, SERIAL_8N1, ATMEGA_RX_PIN, ATMEGA_TX_PIN);
+        /**
+         * Your ESP32 code uses extractFirstUInt16() which looks for
+         * digits and triggers on '\n'. 
+         * Using printf here maps to your uart_send.
+         */
+        printf("%u\n", sensorValue);
 
-    WiFi.mode(WIFI_STA);
-
-    if (esp_now_init() != ESP_OK) {
-        Serial.println("Error initializing ESP-NOW");
-        return;
+        // 100ms delay - matches the responsiveness of your ESP32 loop
+        _delay_ms(100);
     }
 
-    esp_now_register_send_cb(OnDataSent);
-
-    esp_now_peer_info_t peerInfo = {};
-    memcpy(peerInfo.peer_addr, broadcastAddress, 6);
-    peerInfo.channel = 0;
-    peerInfo.encrypt = false;
-
-    if (esp_now_add_peer(&peerInfo) != ESP_OK) {
-        Serial.println("Failed to add peer");
-        return;
-    }
-
-    Serial.println("Peripheral Controller Initialized.");
+    return 0;
 }
-
-void loop() {
-    while (ATmegaSerial.available()) {
-        char c = ATmegaSerial.read();
-
-        if (c == '\r') {
-            continue;
-        }
-
-        if (c == '\n') {
-            lineBuf[linePos] = '\0';
-
-            Serial.print("RAW LINE: [");
-            Serial.print(lineBuf);
-            Serial.println("]");
-
-            uint16_t parsedValue;
-            if (linePos > 0 && extractFirstUInt16(lineBuf, parsedValue)) {
-                myData.adcValue = parsedValue;
-
-                Serial.print("Sending ADC: ");
-                Serial.println(myData.adcValue);
-
-                esp_err_t result = esp_now_send(
-                    broadcastAddress,
-                    (uint8_t *)&myData,
-                    sizeof(myData)
-                );
-
-                if (result != ESP_OK) {
-                    Serial.print("esp_now_send error: ");
-                    Serial.println(result);
-                }
-            } else {
-                Serial.println("Parse error: no valid integer found.");
-            }
-
-            linePos = 0;
-        } else {
-            if (linePos < sizeof(lineBuf) - 1) {
-                lineBuf[linePos++] = c;
-            } else {
-                Serial.println("UART line too long, clearing buffer.");
-                linePos = 0;
-            }
-        }
-    }
-}
-

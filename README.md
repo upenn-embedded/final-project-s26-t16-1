@@ -233,6 +233,8 @@ Overall, we want to polish the different electrical subsystems and integrate the
 
 ![mvpblock](mvpblock.png)
 
+In our current version of the MVP, we have an ATMega328PB (the peripheral controller) that takes in as ADC input the value from a force pressure sensor. This is transmitted via UART to an ESP32 Feather, which transmits the ADC value wirelessly to a second ESP32. The second ESP32 transmits this ADC value via UART to a second ATmega328PB (the central controller), which interprets the value and changes the duty cycle of the PWM signal that enables the DC motor accordingly. We power the peripheral ATmega328PB and the ESP32 using 6 AA batteries in series (9V nominal), with an LDO down to 5V.
+
 ### 2. Explain your firmware implementation, including application logic and critical drivers you’ve written.
 
 For firmware, we implemented the embedded control stack across two microcontrollers that coordinate the sewing machine. On the pedal-side controller, Daniel wrote ADC sensing logic to continuously sample the pressure sensor, filter readings, and convert force input into a speed command. We then built the wireless communication layer using ESP-NOW/Wi-Fi to transmit pedal data with low latency and confirm successful packet delivery.
@@ -247,11 +249,11 @@ Showing a TA + will record.
 
 ### 4. Have you achieved some or all of your Software Requirements Specification (SRS)?
 
-Yes, we've achieved all our SRS except that telemetry which is on its way to being done.
+We achieved almost all of our SRS indepenently and still need to integrate them. The wireless transmission of the foot pedal force to the motor speed works well, and we validated the Hall effect sensor reading separate from this. We still have to setup the LCD screen to print the spool remaining and other parameters.
 
 ### 5. Have you achieved some or all of your Hardware Requirements Specification (HRS)?
 
-We've fully built out our sewing machine and all parts are electrically integrated into separate parts of the system and controllers, but we haven't put any of the electronics onto the machine.
+We've fully built out our sewing machine and all parts are electrically integrated into separate parts of the system and controllers, but we haven't put any of the electronics onto the machine. The integration testing will consist of using the DC motor to actually spin the mechanical enclosure, which are sparate parts at the moment.
 
 ![machine_assembly](machine_assembly.JPG)
 
@@ -263,7 +265,7 @@ We need to put the electronics on the sewing machine and figure out how to wire 
 
 ### 7. What is the riskiest part remaining of your project?
 
-Stress testing and making sure we don't break the machine as well as making sure all parts stay in tact when rewiring and integrating into the machine.
+Stress testing and making sure we don't break the machine as well as making sure all parts stay in tact when rewiring and integrating into the machine. We used 3D-printed rods instead of metal rods for the rotating pieces of the mechanical assembly, which can be risky as 3D-printed parts aremuch more brittle and prone to tolerance issues. This means we would likely not be able to sew any thick fabrics.
 
 ### 8. What questions or help do you need from the teaching team?
 

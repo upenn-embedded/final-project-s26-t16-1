@@ -25,8 +25,8 @@
 #define TOTAL_THREAD_MM_X10     (TOTAL_THREAD_MM * 10UL)            // 2286000
 
 // ---------- EDGE DETECT THRESHOLDS ----------
-#define HALL_HIGH   260
-#define HALL_LOW    230
+#define HALL_HIGH   220
+#define HALL_LOW    240
 
 // ---------- PROGRESS BAR GEOMETRY ----------
 #define BAR_X       10

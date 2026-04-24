@@ -126,17 +126,19 @@ int main(void) {
                     rx_buffer[index++] = c;
                 }
             }
-            else if (index > 0) {
-                rx_buffer[index] = '\0';
+            else if (c == '\n' || c == '\r') {   // ? explicit end
+                if (index > 0) {
+                    rx_buffer[index] = '\0';
 
-                long val = atol(rx_buffer);
-                if (val > 1023) val = 1023;
+                    long val = atol(rx_buffer);
+                    if (val > 1023) val = 1023;
 
-                OCR2B = (uint8_t)(val >> 2);
+                    OCR2B = (uint8_t)(val >> 2);
 
-                printf("PWM: %ld\n", val);
+                    printf("PWM: %ld\n", val);
 
-                index = 0;
+                    index = 0;
+                }
             }
         }
 

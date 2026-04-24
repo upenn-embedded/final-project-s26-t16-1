@@ -25,7 +25,6 @@ void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
 
 void setup() {
    Serial.begin(115200);
-   // MUST match the 9600 baud defined in your uart.h!
    ATmegaSerial.begin(9600, SERIAL_8N1, ATMEGA_RX_PIN, ATMEGA_TX_PIN);
 
    WiFi.mode(WIFI_STA);
@@ -45,7 +44,7 @@ void loop() {
 
        // 1. Send the number
        ATmegaSerial.print(adc);
-       // 2. Send EXACTLY the \r\n sequence your uart_scanf demands
+       // 2. Send exactly the \r\n sequence your uart_scanf demands
        ATmegaSerial.print("\r\n");
        // 3. Force the buffer to transmit immediately so the \n isn't delayed
        ATmegaSerial.flush(); 

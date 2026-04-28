@@ -36,12 +36,8 @@ uint16_t ADC_read(void) {
 }
 
 // ---------------- HALL SENSOR THRESHOLDS ----------------
-#define HALL_HIGH   260
-#define HALL_LOW    180
-
-// ---------------- PEDAL SENSITIVITY ----------------
-#define PEDAL_MIN   200
-#define PEDAL_MAX   950
+#define HALL_HIGH   220
+#define HALL_LOW    190
 
 // ---------------- THREAD / DISPLAY CONFIG ----------------
 #define STITCH_LENGTH_X10       25UL
@@ -136,20 +132,10 @@ int main(void) {
 
                     long val = atol(rx_buffer);
                     if (val > 1023) val = 1023;
-                    if (val < 0)    val = 0;
 
-                    uint8_t duty;
-                    if (val <= PEDAL_MIN) {
-                        duty = 0;
-                    } else if (val >= PEDAL_MAX) {
-                        duty = 255;
-                    } else {
-                        duty = (uint8_t)(((val - PEDAL_MIN) * 255L)
-                                         / (PEDAL_MAX - PEDAL_MIN));
-                    }
-                    OCR2B = duty;
+                    OCR2B = (uint8_t)(val >> 2);
 
-                    printf("PWM: %ld -> %u\n", val, duty);
+                    printf("PWM: %ld\n", val);
 
                     index = 0;
                 }

@@ -8,7 +8,7 @@
 
 
 | Team Member Name | Email Address           |
-| ------------------ | ------------------------- |
+| ---------------- | ----------------------- |
 | Chris Chen       | chrisc05@seas.upenn.edu |
 | Ivy Jiang        | ivyjiang@seas.upenn.edu |
 | Evelyn Li        | eli22@seas.upenn.edu    |
@@ -22,23 +22,22 @@
 
 ### 1. Abstract
 
-Our final project is a smart sewing machine with a wireless foot pedal and built-in thread usage tracking. The wireless pedal will use a pressure sensor to detect how hard the user is pressing and send that input to the sewing machine, which will adjust motor speed in real time. A second part of the system will track spool or shaft rotation to estimate how much thread remains and display that information to the user on an OLED or other indicator. Overall, the project combines wireless communication, sensor input, motor control, and user feedback into one integrated embedded system.
+Our final project is a smart sewing machine with a wireless foot pedal and built-in thread usage tracking. The wireless pedal will use a pressure sensor to detect how hard the user is pressing and send that input wirelessly to the sewing machine, which will adjust motor speed in real time. A second part of the system will track spool or shaft rotation to estimate how much thread remains and display that information to the user on an LCD screen or other indicator. Overall, the project combines wireless communication, sensor input, motor control, and user feedback into one integrated embedded system.
 
 ### 2. Motivation
 
 Conventional sewing machines usually use wired pedals and provide limited real-time information about machine operation. This creates usability limitations, including restricted pedal placement and difficult portability. Furthermore, there is no clear indication of the remaining thread or machine state. This is especially annoying when sewing complex pieces; users have to guess and check when to replace bobbin and spool thread and precision is limited by eyeballing. Our project addresses this by adding a wireless pressure-sensitive pedal and a sensing system that estimates thread usage during operation.
-This project is interesting because it requires real-time interaction between mechanical and embedded subsystems. The device must sense pedal pressure, filter and transmit the input, adjust motor speed, count machine rotations, and provide output through a display or indicators. The intended purpose is to build a more flexible and informative sewing machine system that improves user control while demonstrating strong embedded system integration.
-It is also just cool because some members in our group love to sew and the chain locking mechanism is a marvel in itself, so it could be a cool mechanism to figure out.
+This project is interesting because it requires real-time interaction between mechanical and embedded subsystems. The device must sense pedal pressure, filter and transmit the input, adjust motor speed, count machine rotations, and provide output through a display or indicators. The intended purpose is to build a more flexible and informative sewing machine system that improves user control while demonstrating strong embedded system integration. It is also just cool because some members in our group love to sew and the chain locking mechanism is a marvel in itself, so it could be a cool mechanism to figure out.
 
 ### 3. System Block Diagram
 
-![alt text](images/image.png)
-
-We will need to 3D print the sewing machine components. Further, for the body and internal support of the machine, we will need power tools to cut it out of wood or acrylic.
+![alt text](block_diagram.png) 
 
 ### 4. Design Sketches
 
-![alt text](images/image1.png)
+![alt text](design_sketches.png) 
+
+We will need to 3D print the sewing machine components. Further, for the body and internal support of the machine, we will need power tools to cut it out of wood or acrylic.
 
 ### 5. Software Requirements Specification (SRS)
 
@@ -153,7 +152,7 @@ How will you distribute the work within your team?
 
 ### Last week's progress
 
-This past week, we finalized BOMed (and order), worked on an intial physical CAD (and sent out to print) and wrote an inital version of the embedded code for the foot pedal system.
+This past week, we finalized BOMs (and ordered), worked on an intial physical CAD (and sent out to print) and wrote an inital version of the embedded code for the foot pedal system.
 
 In terms of the BOM, the biggest change we made compared to the inital write up was we switchd the force sensor to a different model with a larger surface area for ease of integration and use. We also realized the power adapter we were planning on using does not source enough current to account for spikes in the motor so we made changes to this.
 
@@ -205,10 +204,10 @@ We also partially assembled our mechanical sewing machine.
 We re-CAD'd/ordered additional parts based on first iteration assemblies. We realized we need metal rods to support the physicaly sewing machine and act as axels for spinning parts. The power supply we ordered was also missing part of the adpater so we reordered this too.
 
 We also cadded the enclosure for the foot pedal sensor and MCU.
-[text](sprint2-3.heic)
+![text](sprint2-3.png)
 
 Our motor driver came so we created a basic test circuit and verified that it works by driving a PWM signal using the detkin power supplies.
-[text](sprint2-2.heic)
+![text](sprint2-2.png)
 
 ### Current state of project
 
@@ -265,7 +264,7 @@ We need to put the electronics on the sewing machine and figure out how to wire 
 
 ### 7. What is the riskiest part remaining of your project?
 
-Stress testing and making sure we don't break the machine as well as making sure all parts stay in tact when rewiring and integrating into the machine. We used 3D-printed rods instead of metal rods for the rotating pieces of the mechanical assembly, which can be risky as 3D-printed parts aremuch more brittle and prone to tolerance issues. This means we would likely not be able to sew any thick fabrics.
+Stress testing and making sure we don't break the machine as well as making sure all parts stay in tact when rewiring and integrating into the machine. We used 3D-printed rods instead of metal rods for the rotating pieces of the mechanical assembly, which can be risky as 3D-printed parts are much more brittle and prone to tolerance issues. This means we would likely not be able to sew any thick fabrics.
 
 ### 8. What questions or help do you need from the teaching team?
 
@@ -277,14 +276,12 @@ We are in good shape for the final demo. Almost everything works functionally ex
 
 ### Next week's plan
 
-We will integrate the display and hall effect sensor for telemetry into the sewing machine and integrate it into existing code. Since we've finished a rough MVP for this week, we can now work on polishing the circuit boards -- soldering rather than using breadboards and putting it on the machine -- as well as making our code readable and modularized.
-
-Also we would like to stress test our machine to make sure it won't break on Demo Day.
+We will integrate the display and hall effect sensor for telemetry into the sewing machine and integrate it into existing code. Since we've finished a rough MVP for this week, we can now work on polishing the circuit boards -- soldering rather than using breadboards and putting it on the machine -- as well as making our code readable and modularized. Also we would like to stress test our machine to make sure it won't break on Demo Day.
 
 ## Final Report
 
 Don't forget to make the GitHub pages public website!
-If you’ve never made a GitHub pages website before, you can follow this webpage (though, substitute your final project repository for the GitHub username one in the quickstart guide):  [https://docs.github.com/en/pages/quickstart](https://docs.github.com/en/pages/quickstart)
+https://upenn-embedded.github.io/final-project-s26-t16-1/
 
 ***NOTE!!! Our final website is made using our index.md file NOT this README
 # Gertrude

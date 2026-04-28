@@ -12,10 +12,10 @@
 
 // ---------------- PWM (Motor Control - Timer2) ----------------
 static void pwm_init(void) {
-    DDRD |= (1 << DDD3);  // PD3 = OC2B
+    DDRD |= (1 << DDD3); 
 
     TCCR2A = (1 << COM2B1) | (1 << WGM21) | (1 << WGM20);
-    TCCR2B = (1 << CS21); // prescaler 8
+    TCCR2B = (1 << CS21); 
 
     OCR2B = 0;
 }
@@ -81,14 +81,14 @@ static void draw_bar_fill(uint8_t percent, uint16_t color) {
 // ---------------- MAIN ----------------
 int main(void) {
 
-    // --- LCD FIRST ---
+    // Initialize LCD
     _delay_ms(200);
     lcd_init();
     LCD_rotate(1);
     LCD_setScreen(BLACK);
     LCD_brightness(255);
 
-    // --- Other peripherals ---
+    // Initialize other perpherals
     uart_init();
     pwm_init();
     ADC_init();
@@ -116,8 +116,7 @@ int main(void) {
     uint16_t lcd_div = 0;
 
     while (1) {
-
-        // -------- FAST: UART + PWM --------
+        // -------- UART --------
         if (UCSR0A & (1 << RXC0)) {
             char c = UDR0;
 
@@ -126,7 +125,7 @@ int main(void) {
                     rx_buffer[index++] = c;
                 }
             }
-            else if (c == '\n' || c == '\r') {   // ? explicit end
+            else if (c == '\n' || c == '\r') {   
                 if (index > 0) {
                     rx_buffer[index] = '\0';
 
@@ -145,7 +144,7 @@ int main(void) {
         // -------- ADC --------
         uint16_t adc_val = ADC_read();
 
-        // -------- HALL EDGE DETECT --------
+        // -------- HALL EDGE --------
         if (adc_val > HALL_HIGH && magnet_seen == 0) {
             stitch_count++;
             magnet_seen = 1;
@@ -154,7 +153,7 @@ int main(void) {
             magnet_seen = 0;
         }
 
-        // -------- LCD UPDATE (THROTTLED) --------
+        // -------- LCD UPDATE --------
         lcd_div++;
         if (lcd_div >= 3000) {
             lcd_div = 0;

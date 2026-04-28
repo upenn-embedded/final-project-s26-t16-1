@@ -12,8 +12,8 @@ volatile bool newData = false;
 volatile uint16_t currentAdcValue = 0;
 
 HardwareSerial ATmegaSerial(2);
-#define ATMEGA_RX_PIN 14 // ESP32 RX <- ATmega TX (PD1)
-#define ATMEGA_TX_PIN 32 // ESP32 TX -> ATmega RX (PD0)
+#define ATMEGA_RX_PIN 14 // ESP32 RX to ATmega TX (PD1)
+#define ATMEGA_TX_PIN 32 // ESP32 TX to ATmega RX (PD0)
 
 void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
    if (len != sizeof(struct_message)) return; 
@@ -25,7 +25,6 @@ void OnDataRecv(const esp_now_recv_info_t *info, const uint8_t *data, int len) {
 
 void setup() {
    Serial.begin(115200);
-   // MUST match the 9600 baud defined in your uart.h!
    ATmegaSerial.begin(9600, SERIAL_8N1, ATMEGA_RX_PIN, ATMEGA_TX_PIN);
 
    WiFi.mode(WIFI_STA);
@@ -43,15 +42,13 @@ void loop() {
        Serial.print("Sending to ATmega: ");
        Serial.println(adc);
 
-       // 1. Send the number
+       // Send the value and flush the buffer
        ATmegaSerial.print(adc);
-       // 2. Send EXACTLY the \r\n sequence your uart_scanf demands
        ATmegaSerial.print("\r\n");
-       // 3. Force the buffer to transmit immediately so the \n isn't delayed
        ATmegaSerial.flush(); 
    }
 
-   // Read debug messages from ATmega and print to PC
+   // Read debug messages from ATmega 
    while (ATmegaSerial.available()) {
        Serial.write(ATmegaSerial.read());
    }

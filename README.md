@@ -14,9 +14,9 @@
 | Evelyn Li        | eli22@seas.upenn.edu    |
 | Daniel Lin       | dl1n@seas.upenn.edu     |
 
-**GitHub Repository URL:** https://github.com/upenn-embedded/final-project-s26-t16-new
+**GitHub Repository URL:** https://github.com/upenn-embedded/final-project-s26-t16-1
 
-**GitHub Pages Website URL:** [for final submission]*
+**GitHub Pages Website URL:** https://upenn-embedded.github.io/final-project-s26-t16-1/
 
 ## Final Project Proposal
 
@@ -418,7 +418,7 @@ Validation: The visual display came in the form of a status LED on the sewing ma
 
 The device shall include a power source and regulation hardware capable of safely powering both microcontrollers, the wireless pedal, sensors, display, and motor-driving circuitry.
 
-Validation: This was achieved and functioning machine is proof of that. Specifcally, we utlized 6 AA battery back, 9V to 5V and 3.3V LDO, wall to 12V socket and fixed 5V portable power supply.
+Validation: This was achieved and functioning machine is proof of that. Specifcally, we utlized 6 AA batteries in series for a nominal battery voltage of 9V, 9V to 5V and 3.3V LDO, wall to 12V socket and fixed 5V portable power supply.
 
 | ID | Description | Validation Outcome |
 | --- | --- | --- |
@@ -427,13 +427,16 @@ Validation: This was achieved and functioning machine is proof of that. Specifca
 
 </div>
 
-<div class="section" markdown="1">
-
 ## Conclusion
 
-In conclusion, we had a lot of fun but also learning moments working on Gertrude. We learned a lot about debugging and working step by step up from a minimum viable product to a fully embedded sewing machine. What went well was that we planned out our time very well and were able to rapidly prototype if a design wasn't working or if a part was missing. We were also a super communicative team, so it was easy to know what to work on and how to get it done. Overall, pretty much everything worked except that the needle was misaligned causing our machine to be unable to stitch. To solve this problem, next time, we would probably align the hook better so that it could grab the needle thread at the right moment.Overall, we're super proud of the team for pushing through challenges and making a functional sewing machine!
+In conclusion, we had a lot of fun but also learning moments working on Gertrude. We learned a lot about debugging and working step by step up from a minimum viable product to a fully embedded sewing machine. 
+What went well was that we planned out our time very well and were able to rapidly prototype if a design wasn't working or if a part was missing. For instance, we initially had significant issues getting our UART bridge to work between the ATMega used to sense the ADC value on the pressure sensor to the ESP-32, transmitting over ESP-NOW to the second ESP-32, and getting the value from the secon ESP-32 to the second ATmega over UART for processing with the motor. We found this issue to be because we were trying to read from UART channel 2 on the second ESP-32 when in reality the ESP-32 we used only had two UART channels (channel 0 and channel 1). We spent significant time debugging this issue (on the order of several hours) and the fact that we planned our time very well meant that we were able to resolve issues like this without it pushing back our timeline too much. Another major issue we face was on the integration side. When we tried to integrate the code controlling our motor duty cycle with the code for the Hall effect sensor and the LCD screen, we found that neither the LCD screen nor the motor worked properly. We eventually found out that the cause of this issue was that both them motor driver and the LCD screen used timer 0 on different channels, so our integrated code only worked when we switched the LCD screen to timer 2.
+
+We were also a super communicative team, so it was easy to know what to work on and how to get it done. Overall, pretty much everything worked except that the needle was misaligned causing our machine to be unable to stitch. To solve this problem, next time, we would probably align the hook better so that it could grab the needle thread at the right moment. In general, we could probably have spent more time iterating on the open-source CAD design we found to meet our design requirements, because some of the open-source CAD files did not match what we were looking for - for instance, the model we used was designed to be run with metal rods, but we only had access to 3D-printed rods which made the tolerance issues of our device worse. Overall, we're super proud of the team for pushing through challenges and making a functional sewing machine!
 
 ## References
 ESP-Now 
-UART Library (Labs 1 through 4)
-LCD Library (Lab 4: Pong)
+
+UART Library (Labs 1-4)
+
+LCD Library (Lab 4)

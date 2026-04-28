@@ -1,0 +1,198 @@
+<style>
+  body {
+    background: #fbf7ef;
+    color: #263331;
+  }
+
+  .report {
+    max-width: 980px;
+    margin: 0 auto;
+    padding-bottom: 36px;
+  }
+
+  .title-block {
+    margin: 18px 0 28px;
+    padding: 28px 0 18px;
+    border-bottom: 3px solid #9fc9bd;
+  }
+
+  .title-block h1 {
+    margin-bottom: 8px;
+    color: #1f625f;
+  }
+
+  .title-block p {
+    margin: 0;
+    color: #536660;
+    font-size: 1.1rem;
+  }
+
+  .section {
+    margin: 26px 0;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid #d9ded3;
+    border-radius: 6px;
+  }
+
+  .section h2 {
+    margin-top: 0;
+    color: #1f625f;
+  }
+
+  .section h3 {
+    color: #33413e;
+  }
+
+  .image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 12px;
+  }
+
+  .image-grid img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border: 1px solid #d9ded3;
+    border-radius: 4px;
+    background: #f2eee4;
+  }
+
+  table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+  }
+
+  th {
+    background: #e3eee4;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    border: 1px solid #d9ded3;
+    vertical-align: top;
+  }
+</style>
+
+<div class="report" markdown="1">
+
+<div class="title-block" markdown="1">
+
+# Bolt
+
+ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart resource usage prediction
+
+</div>
+
+<div class="section" markdown="1">
+
+## Video
+
+[Final demo video](https://youtu.be/aF5EwkLu-dE)
+
+</div>
+
+<div class="section" markdown="1">
+
+## Images
+
+(400x400 Thumbnail)
+
+<div class="image-grid">
+  <img src="final%20images%20/400x400.JPG" alt="400x400 Thumbnail">
+  <img src="final%20images%20/IMG_1396.jpeg" alt="Final project image">
+  <img src="final%20images%20/IMG_1398.jpeg" alt="Final project image">
+  <img src="final%20images%20/IMG_1401.jpeg" alt="Final project image">
+  <img src="final%20images%20/IMG_1403.jpeg" alt="Final project image">
+</div>
+
+</div>
+
+<div class="section" markdown="1">
+
+## Progress Shots
+
+<div class="image-grid">
+  <img src="progress/IMG_4221.JPG" alt="Progress shot">
+  <img src="progress/IMG_4233.jpeg" alt="Progress shot">
+  <img src="progress/IMG_5754.jpeg" alt="Progress shot">
+  <img src="progress/IMG_6074.jpeg" alt="Progress shot">
+  <img src="progress/IMG_5991.jpeg" alt="Progress shot">
+  <img src="progress/IMG_6068.jpeg" alt="Progress shot">
+  <img src="mvpblock.png" alt="MVP block diagram">
+</div>
+
+</div>
+
+<div class="section" markdown="1">
+
+## Results
+
+In the end, our sewing machine "Gertrude" was very close to the product we envisioned
+from the beginning. It contained a PLA 3-D printed sewing machine complete with fully
+function gears, hooks and pedals powered by a DC motor. It possessed a detached
+"foot-pedal" that utilized a force sensor to control the speed of the sewing machine and
+use 2 ATMegas to handle embedded computations and 2 ESPs running ESP-Now to handle
+wireless communication. Finally, a hall effect sensor was used to measure yarn usage
+and display relevant information like "total stiches" on an onbard LCD screen.
+
+</div>
+
+<div class="section" markdown="1">
+
+## Software Requirements Specification (SRS) Results
+
+| ID | Description | Validation Outcome |
+| --- | --- | --- |
+| **THIS IS EXAMPLE SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds. | Confirmed, logged output from the MCU is saved to "validation" folder in GitHub repository. |
+
+</div>
+
+<div class="section" markdown="1">
+
+## Hardware Requirements Specification (HRS) Results
+
+We met almost all of the hardware requirement initially outline in our project proposal. A brief overview of these requirments and our ultimate design is discussed below:
+
+### Wireless Foot Pedal Hardware
+
+The system shall use two separate microcontrollers: one located in the wireless pedal for pressure sensing and transmission, and one located on the sewing machine for motor control, display output, and spool/thread monitoring.
+
+Validation: Yes, this was met and the locations were as planned. This is demonstrated in the images above.
+
+The sewing machine shall include a motor and motor-driving circuit capable of rotating the stitching mechanism at variable speeds based on pedal input.
+
+Validation: Yes, this was met, and a functioning motor is outline in the demo video.
+
+The machine shall include a hardware sensor, such as an encoder, Hall-effect sensor, or optical sensor, to detect spool or shaft rotation for thread-usage estimation.
+
+Validation: We did include sensors to count spool usage/number of rotations in the form of a hall effect sensor and magnet. Agin, demonstrated in demo video.
+
+The system shall include at least one hardware output device to indicate machine status, such as an OLED display and/or LED indicators.
+
+Validation: The visual display came in the form of a status LED on the sewing machine side ATMega as well as the LCD screen turning on.
+
+### Power System
+
+The device shall include a power source and regulation hardware capable of safely powering both microcontrollers, the wireless pedal, sensors, display, and motor-driving circuitry.
+
+Validation: This was achieved and functioning machine is proof of that. Specifcally, we utlized 3 AA battery back, 9V to 5V and 3.3V LDO, wall to 12V socket and fixed 5V portable power supply.
+
+| ID | Description | Validation Outcome |
+| --- | --- | --- |
+| HRS-01 | The system shall include a portable foot pedal with an embedded pressure sensor and microcontroller to detect user input and transmit speed commands wirelessly. | Confirmed, could communicate wirelessly up to 50+ meters away. Video1 in "validation" folder, shows example of wireless communication working. |
+| HRS-07 | The foot pedal pressure sensor shall provide enough measurable range to distinguish between at least three user input levels: low, medium, and high pressure. | Confirmed, could see very visible differences in motor speed depending on force applied. End of demo video on website shows difference speeds, LCD screen showing in Video1 in "validation" folder also zooms in on ADC reading of pressure sensor |
+
+</div>
+
+<div class="section" markdown="1">
+
+## Conclusion
+
+</div>
+
+</div>

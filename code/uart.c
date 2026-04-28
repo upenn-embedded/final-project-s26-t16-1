@@ -4,6 +4,23 @@
 #include <stdarg.h>
 #include <string.h>
 
+static unsigned char uart_read_byte(void)
+{
+    unsigned char status;
+    unsigned char data;
+
+    while (1) {
+        while (!(UCSR0A & (1 << RXC0)));
+
+        status = UCSR0A;
+        data = UDR0;
+
+        if (!(status & ((1 << FE0) | (1 << DOR0) | (1 << UPE0)))) {
+            return data;
+        }
+    }
+}
+
 void uart_init()
 {
     /*Set baud rate */
@@ -11,9 +28,8 @@ void uart_init()
     UBRR0L = (unsigned char)UART_BAUD_PRESCALER;
     //Enable receiver and transmitter
     UCSR0B = (1<<RXEN0)|(1<<TXEN0);
-    /* Set frame format: 2 stop bits, 8 data bits */
-    UCSR0C = (1<<UCSZ01) | (1<<UCSZ00); // 8 data bits
-    UCSR0C |= (1<<USBS0); // 2 stop bits
+    /* Match the ESP32 bridge configuration: 8 data bits, no parity, 1 stop bit */
+    UCSR0C = (1<<UCSZ01) | (1<<UCSZ00);
     
     __init_stdout(uart_send);
     __init_stdin(uart_receive);
@@ -30,8 +46,8 @@ int uart_send(char data, FILE* stream)
 
 int uart_receive(FILE* stream)
 {
-    while (!(UCSR0A & (1 << RXC0)));
-    return UDR0;
+    (void)stream;
+    return uart_read_byte();
 }
 
 void determine_line_ending() {
@@ -137,6 +153,7 @@ void uart_scanf(const char* format, ...)
                 }
                 case 'c':
                 {
+                    char *char_ptr = va_arg(args, char*);
                     while(1)
                     {
                         c = uart_receive(NULL);
@@ -155,9 +172,10 @@ void uart_scanf(const char* format, ...)
                             break;
                         }
                         #endif
-                        char *char_ptr = va_arg(args, char*);
                         *char_ptr = c;
+                        break;
                     }
+                    break;
                 }
             }
         }

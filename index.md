@@ -115,6 +115,9 @@ ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart re
   <img src="final%20images/IMG_1398.jpeg" alt="Final project image">
   <img src="final%20images/IMG_1401.jpeg" alt="Final project image">
   <img src="final%20images/IMG_1403.jpeg" alt="Final project image">
+  <img src="final%20images/IMG_1404.jpeg">
+  <img src="final%20images/IMG_1406.jpeg">
+  <img src="final%20images/IMG_1407.jpeg">
 </div>
 
 </div>
@@ -131,6 +134,7 @@ ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart re
   <img src="progress/IMG_5991.jpeg" alt="Progress shot">
   <img src="progress/IMG_6068.jpeg" alt="Progress shot">
   <img src="mvpblock.png" alt="MVP block diagram">
+  <img src="sprint2-1.jpeg" alt="Progress shot>
 </div>
 
 </div>

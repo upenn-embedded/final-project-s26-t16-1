@@ -314,8 +314,6 @@ ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart re
 
 ## Images
 
-(400x400 Thumbnail)
-
 <div class="image-grid">
   <img src="final%20images/400x400.JPG" alt="400x400 Thumbnail">
   <img src="final%20images/IMG_1396.jpeg" alt="Final project image">
@@ -368,8 +366,8 @@ Overall, the system achieved its primary functional goals, with reliable real-ti
 
 | ID | Description | Validation Outcome |
 | --- | --- | --- |
-| **SRS-04** | The sewing machine microcontroller shall track spool or shaft rotations using a Hall-effect sensor. | Partially Confirmed, the Hall sensor and magnet successfully incremented rotation/stitch count displayed on the LCD, matching visible spool movement during operation. Minor inaccuracies occurred at higher speeds due to missed transitions or signal noise. Demonstrated in demo video and system output :contentReference[oaicite:0]{index=0} |
-| **SRS-06** | The system shall provide user feedback through an LCD display to indicate system status and usage metrics such as stitch count. | Confirmed, the LCD powered on correctly and updated in real time to reflect stitch count and system state during operation. Consistent behavior is shown in demo video and images :contentReference[oaicite:1]{index=1} |
+| **SRS-04** | The sewing machine microcontroller shall track spool or shaft rotations using a Hall-effect sensor. | Partially Confirmed, the Hall sensor and magnet successfully incremented rotation/stitch count displayed on the LCD, matching visible spool movement during operation. Minor inaccuracies occurred at higher speeds due to missed transitions or signal noise. Demonstrated in demo video and system output 
+| **SRS-06** | The system shall provide user feedback through an LCD display to indicate system status and usage metrics such as stitch count. | Confirmed, the LCD powered on correctly and updated in real time to reflect stitch count and system state during operation. Consistent behavior is shown in demo video and images 
 
 SRS-04 Proof:
 
@@ -420,7 +418,7 @@ Validation: The visual display came in the form of a status LED on the sewing ma
 
 The device shall include a power source and regulation hardware capable of safely powering both microcontrollers, the wireless pedal, sensors, display, and motor-driving circuitry.
 
-Validation: This was achieved and functioning machine is proof of that. Specifcally, we utlized 3 AA battery back, 9V to 5V and 3.3V LDO, wall to 12V socket and fixed 5V portable power supply.
+Validation: This was achieved and functioning machine is proof of that. Specifcally, we utlized 6 AA battery back, 9V to 5V and 3.3V LDO, wall to 12V socket and fixed 5V portable power supply.
 
 | ID | Description | Validation Outcome |
 | --- | --- | --- |
@@ -437,5 +435,5 @@ In conclusion, we had a lot of fun but also learning moments working on Gertrude
 
 ## References
 ESP-Now 
-UART Library (Lab Many Lab)
+UART Library (Labs 1 through 4)
 LCD Library (Lab 4: Pong)

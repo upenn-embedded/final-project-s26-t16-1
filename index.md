@@ -92,7 +92,14 @@ ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart re
 
 ## Video
 
-[Final demo video](https://youtu.be/aF5EwkLu-dE)
+<div style="position: relative; padding-bottom: 56.25%; height: 0;">
+  <iframe 
+    src="https://www.youtube.com/embed/aF5EwkLu-dE" 
+    frameborder="0" 
+    allowfullscreen
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+  </iframe>
+</div>
 
 </div>
 
@@ -146,9 +153,33 @@ and display relevant information like "total stiches" on an onbard LCD screen.
 
 ## Software Requirements Specification (SRS) Results
 
+Based on our quantified system performance, we were able to meet most of our core software requirements, particularly those related to user interaction and system feedback. The LCD display requirement (SRS-06) was fully achieved, as the system consistently provided real-time updates of stitch count and system status. This demonstrated strong integration between sensing, processing, and user output, and validated that our software pipeline from sensor input to display was reliable.
+
+However, we fell slightly short in fully meeting the rotation counting requirement (SRS-04). While the Hall-effect sensor successfully detected and tracked spool rotations, small inaccuracies were observed, especially at higher motor speeds. These errors were likely caused by missed sensor transitions or noise in the signal, indicating limitations in our polling or interrupt handling approach. Although the system functioned correctly at a conceptual level, the measured counts did not always remain within the desired accuracy range.
+
+Overall, the system achieved its primary functional goals, with reliable real-time control and feedback. The remaining shortcomings are primarily related to signal robustness and measurement precision, which could be improved through better interrupt handling, signal conditioning, or filtering in future iterations.
+
 | ID | Description | Validation Outcome |
 | --- | --- | --- |
-| **THIS IS EXAMPLE SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds. | Confirmed, logged output from the MCU is saved to "validation" folder in GitHub repository. |
+| **SRS-04** | The sewing machine microcontroller shall track spool or shaft rotations using a Hall-effect sensor. | Partially Confirmed, the Hall sensor and magnet successfully incremented rotation/stitch count displayed on the LCD, matching visible spool movement during operation. Minor inaccuracies occurred at higher speeds due to missed transitions or signal noise. Demonstrated in demo video and system output :contentReference[oaicite:0]{index=0} |
+| **SRS-06** | The system shall provide user feedback through an LCD display to indicate system status and usage metrics such as stitch count. | Confirmed, the LCD powered on correctly and updated in real time to reflect stitch count and system state during operation. Consistent behavior is shown in demo video and images :contentReference[oaicite:1]{index=1} |
+
+SRS-04 Proof:
+
+<div style="display: flex; justify-content: center;">
+  <iframe 
+    width="315" 
+    height="560"
+    src="https://www.youtube.com/embed/GNKjsASPulc"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
+
+SRS-06 Proof:
+
+<img src="lcdscreensrs.jpg" alt="SRS-06 Proof">
+
 
 </div>
 

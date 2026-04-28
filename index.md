@@ -82,7 +82,7 @@
 
 <div class="title-block" markdown="1">
 
-# Bolt
+# Gertrude
 
 ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart resource usage prediction
 

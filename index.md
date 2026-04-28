@@ -101,6 +101,8 @@ ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart re
   </iframe>
 </div>
 
+[Open demo video](https://www.youtube.com/watch?v=aF5EwkLu-dE)
+
 </div>
 
 <div class="section" markdown="1">
@@ -110,11 +112,11 @@ ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart re
 (400x400 Thumbnail)
 
 <div class="image-grid">
-  <img src="final%20images%20/400x400.JPG" alt="400x400 Thumbnail">
-  <img src="final%20images%20/IMG_1396.jpeg" alt="Final project image">
-  <img src="final%20images%20/IMG_1398.jpeg" alt="Final project image">
-  <img src="final%20images%20/IMG_1401.jpeg" alt="Final project image">
-  <img src="final%20images%20/IMG_1403.jpeg" alt="Final project image">
+  <img src="final%20images/400x400.JPG" alt="400x400 Thumbnail">
+  <img src="final%20images/IMG_1396.jpeg" alt="Final project image">
+  <img src="final%20images/IMG_1398.jpeg" alt="Final project image">
+  <img src="final%20images/IMG_1401.jpeg" alt="Final project image">
+  <img src="final%20images/IMG_1403.jpeg" alt="Final project image">
 </div>
 
 </div>
@@ -176,6 +178,8 @@ SRS-04 Proof:
   </iframe>
 </div>
 
+[Open SRS-04 proof video](https://www.youtube.com/watch?v=GNKjsASPulc)
+
 SRS-06 Proof:
 
 <img src="lcdscreensrs.jpg" alt="SRS-06 Proof">
@@ -215,8 +219,8 @@ Validation: This was achieved and functioning machine is proof of that. Specifca
 
 | ID | Description | Validation Outcome |
 | --- | --- | --- |
-| HRS-01 | The system shall include a portable foot pedal with an embedded pressure sensor and microcontroller to detect user input and transmit speed commands wirelessly. | Confirmed, could communicate wirelessly up to 50+ meters away. Video1 in "validation" folder, shows example of wireless communication working. |
-| HRS-07 | The foot pedal pressure sensor shall provide enough measurable range to distinguish between at least three user input levels: low, medium, and high pressure. | Confirmed, could see very visible differences in motor speed depending on force applied. End of demo video on website shows difference speeds, LCD screen showing in Video1 in "validation" folder also zooms in on ADC reading of pressure sensor |
+| HRS-01 | The system shall include a portable foot pedal with an embedded pressure sensor and microcontroller to detect user input and transmit speed commands wirelessly. | Confirmed, could communicate wirelessly up to 50+ meters away. [Video1](validation/Video1.mov) shows example of wireless communication working. |
+| HRS-07 | The foot pedal pressure sensor shall provide enough measurable range to distinguish between at least three user input levels: low, medium, and high pressure. | Confirmed, could see very visible differences in motor speed depending on force applied. End of demo video on website shows difference speeds, LCD screen shown in [Video1](validation/Video1.mov) also zooms in on ADC reading of pressure sensor. |
 
 </div>
 
@@ -228,6 +232,4 @@ In conclusion, we had a lot of fun but also learning moments working on Gertrude
 
 </div>
 </div>
-
-
 

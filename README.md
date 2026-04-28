@@ -286,27 +286,156 @@ Also we would like to stress test our machine to make sure it won't break on Dem
 Don't forget to make the GitHub pages public website!
 If you’ve never made a GitHub pages website before, you can follow this webpage (though, substitute your final project repository for the GitHub username one in the quickstart guide):  [https://docs.github.com/en/pages/quickstart](https://docs.github.com/en/pages/quickstart)
 
-### 1. Video
+***NOTE!!! Our final website is made using our index.md file NOT this README
+# Gertrude
 
-### 2. Images
+ESE3500 Final Project: Embedded Sewing Machine for wireless control and smart resource usage prediction
 
-### 3. Results
+</div>
 
-#### 3.1 Software Requirements Specification (SRS) Results
+<div class="section" markdown="1">
+
+## Video
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0;">
+  <iframe 
+    src="https://www.youtube.com/embed/aF5EwkLu-dE" 
+    frameborder="0" 
+    allowfullscreen
+    style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+  </iframe>
+</div>
+
+[Open demo video](https://www.youtube.com/watch?v=aF5EwkLu-dE)
+
+</div>
+
+<div class="section" markdown="1">
+
+## Images
+
+(400x400 Thumbnail)
+
+<div class="image-grid">
+  <img src="final%20images/400x400.JPG" alt="400x400 Thumbnail">
+  <img src="final%20images/IMG_1396.jpeg" alt="Final project image">
+  <img src="final%20images/IMG_1398.jpeg" alt="Final project image">
+  <img src="final%20images/IMG_1401.jpeg" alt="Final project image">
+  <img src="final%20images/IMG_1403.jpeg" alt="Final project image">
+</div>
+
+</div>
+
+<div class="section" markdown="1">
+
+## Progress Shots
+
+<div class="image-grid">
+  <img src="progress/IMG_4221.JPG" alt="Progress shot">
+  <img src="progress/IMG_4233.jpeg" alt="Progress shot">
+  <img src="progress/IMG_5754.jpeg" alt="Progress shot">
+  <img src="progress/IMG_6074.jpeg" alt="Progress shot">
+  <img src="progress/IMG_5991.jpeg" alt="Progress shot">
+  <img src="progress/IMG_6068.jpeg" alt="Progress shot">
+  <img src="mvpblock.png" alt="MVP block diagram">
+</div>
+
+</div>
+
+<div class="section" markdown="1">
+
+## Results
+
+In the end, our sewing machine "Gertrude" was very close to the product we envisioned
+from the beginning. It contained a PLA 3-D printed sewing machine complete with fully
+function gears, hooks and pedals powered by a DC motor. It possessed a detached
+"foot-pedal" that utilized a force sensor to control the speed of the sewing machine and
+use 2 ATMegas to handle embedded computations and 2 ESPs running ESP-Now to handle
+wireless communication. Finally, a hall effect sensor was used to measure yarn usage
+and display relevant information like "total stiches" on an onbard LCD screen.
+
+</div>
+
+<div class="section" markdown="1">
+
+## Software Requirements Specification (SRS) Results
+
+Based on our quantified system performance, we were able to meet most of our core software requirements, particularly those related to user interaction and system feedback. The LCD display requirement (SRS-06) was fully achieved, as the system consistently provided real-time updates of stitch count and system status. This demonstrated strong integration between sensing, processing, and user output, and validated that our software pipeline from sensor input to display was reliable.
+
+However, we fell slightly short in fully meeting the rotation counting requirement (SRS-04). While the Hall-effect sensor successfully detected and tracked spool rotations, small inaccuracies were observed, especially at higher motor speeds. These errors were likely caused by missed sensor transitions or noise in the signal, indicating limitations in our polling or interrupt handling approach. Although the system functioned correctly at a conceptual level, the measured counts did not always remain within the desired accuracy range.
+
+Overall, the system achieved its primary functional goals, with reliable real-time control and feedback. The remaining shortcomings are primarily related to signal robustness and measurement precision, which could be improved through better interrupt handling, signal conditioning, or filtering in future iterations.
+
+| ID | Description | Validation Outcome |
+| --- | --- | --- |
+| **SRS-04** | The sewing machine microcontroller shall track spool or shaft rotations using a Hall-effect sensor. | Partially Confirmed, the Hall sensor and magnet successfully incremented rotation/stitch count displayed on the LCD, matching visible spool movement during operation. Minor inaccuracies occurred at higher speeds due to missed transitions or signal noise. Demonstrated in demo video and system output :contentReference[oaicite:0]{index=0} |
+| **SRS-06** | The system shall provide user feedback through an LCD display to indicate system status and usage metrics such as stitch count. | Confirmed, the LCD powered on correctly and updated in real time to reflect stitch count and system state during operation. Consistent behavior is shown in demo video and images :contentReference[oaicite:1]{index=1} |
+
+SRS-04 Proof:
+
+<div style="display: flex; justify-content: center;">
+  <iframe 
+    width="315" 
+    height="560"
+    src="https://www.youtube.com/embed/GNKjsASPulc"
+    frameborder="0"
+    allowfullscreen>
+  </iframe>
+</div>
+
+[Open SRS-04 proof video](https://www.youtube.com/watch?v=GNKjsASPulc)
+
+SRS-06 Proof:
+
+<img src="lcdscreensrs.jpg" alt="SRS-06 Proof">
 
 
-| ID     | Description                                                                                               | Validation Outcome                                                                          |
-| -------- | ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| SRS-01 | The IMU 3-axis acceleration will be measured with 16-bit depth every 100 milliseconds +/-10 milliseconds. | Confirmed, logged output from the MCU is saved to "validation" folder in GitHub repository. |
+</div>
 
-#### 3.2 Hardware Requirements Specification (HRS) Results
+<div class="section" markdown="1">
 
+## Hardware Requirements Specification (HRS) Results
 
-| ID     | Description                                                                                                                        | Validation Outcome                                                                                                      |
-| -------- | ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------- |
-| HRS-01 | A distance sensor shall be used for obstacle detection. The sensor shall detect obstacles at a maximum distance of at least 10 cm. | Confirmed, sensed obstacles up to 15cm. Video in "validation" folder, shows tape measure and logged output to terminal. |
-|        |                                                                                                                                    |                                                                                                                         |
+We met almost all of the hardware requirement initially outline in our project proposal. A brief overview of these requirments and our ultimate design is discussed below:
 
-### 4. Conclusion
+### Wireless Foot Pedal Hardware
+
+The system shall use two separate microcontrollers: one located in the wireless pedal for pressure sensing and transmission, and one located on the sewing machine for motor control, display output, and spool/thread monitoring.
+
+Validation: Yes, this was met and the locations were as planned. This is demonstrated in the images above.
+
+The sewing machine shall include a motor and motor-driving circuit capable of rotating the stitching mechanism at variable speeds based on pedal input.
+
+Validation: Yes, this was met, and a functioning motor is outline in the demo video.
+
+The machine shall include a hardware sensor, such as an encoder, Hall-effect sensor, or optical sensor, to detect spool or shaft rotation for thread-usage estimation.
+
+Validation: We did include sensors to count spool usage/number of rotations in the form of a hall effect sensor and magnet. Agin, demonstrated in demo video.
+
+The system shall include at least one hardware output device to indicate machine status, such as an OLED display and/or LED indicators.
+
+Validation: The visual display came in the form of a status LED on the sewing machine side ATMega as well as the LCD screen turning on.
+
+### Power System
+
+The device shall include a power source and regulation hardware capable of safely powering both microcontrollers, the wireless pedal, sensors, display, and motor-driving circuitry.
+
+Validation: This was achieved and functioning machine is proof of that. Specifcally, we utlized 3 AA battery back, 9V to 5V and 3.3V LDO, wall to 12V socket and fixed 5V portable power supply.
+
+| ID | Description | Validation Outcome |
+| --- | --- | --- |
+| HRS-01 | The system shall include a portable foot pedal with an embedded pressure sensor and microcontroller to detect user input and transmit speed commands wirelessly. | Confirmed, could communicate wirelessly up to 50+ meters away. [Video1](validation/Video1.mov) shows example of wireless communication working. |
+| HRS-07 | The foot pedal pressure sensor shall provide enough measurable range to distinguish between at least three user input levels: low, medium, and high pressure. | Confirmed, could see very visible differences in motor speed depending on force applied. End of demo video on website shows difference speeds, LCD screen shown in [Video1](validation/Video1.mov) also zooms in on ADC reading of pressure sensor. |
+
+</div>
+
+<div class="section" markdown="1">
+
+## Conclusion
+
+In conclusion, we had a lot of fun but also learning moments working on Gertrude. We learned a lot about debugging and working step by step up from a minimum viable product to a fully embedded sewing machine. What went well was that we planned out our time very well and were able to rapidly prototype if a design wasn't working or if a part was missing. We were also a super communicative team, so it was easy to know what to work on and how to get it done. Overall, pretty much everything worked except that the needle was misaligned causing our machine to be unable to stitch. To solve this problem, next time, we would probably align the hook better so that it could grab the needle thread at the right moment.Overall, we're super proud of the team for pushing through challenges and making a functional sewing machine!
 
 ## References
+ESP-Now 
+UART Library (Lab Many Lab)
+LCD Library (Lab 4: Pong)

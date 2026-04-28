@@ -230,6 +230,11 @@ Validation: This was achieved and functioning machine is proof of that. Specifca
 
 In conclusion, we had a lot of fun but also learning moments working on Gertrude. We learned a lot about debugging and working step by step up from a minimum viable product to a fully embedded sewing machine. What went well was that we planned out our time very well and were able to rapidly prototype if a design wasn't working or if a part was missing. We were also a super communicative team, so it was easy to know what to work on and how to get it done. Overall, pretty much everything worked except that the needle was misaligned causing our machine to be unable to stitch. To solve this problem, next time, we would probably align the hook better so that it could grab the needle thread at the right moment.Overall, we're super proud of the team for pushing through challenges and making a functional sewing machine!
 
+## References
+ESP-Now 
+UART Library (Lab Many Lab)
+LCD Library (Lab 4: Pong)
+
 </div>
 </div>
 

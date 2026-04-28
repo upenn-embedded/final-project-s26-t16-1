@@ -12,17 +12,11 @@
 #include "lib/ST7735.h"
 #include "lib/LCD_GFX.h"
 
-// ---------------- PWM (Motor Control - Timer2) ----------------
+// ---------------- PWM (Motor Control - Timer 2) ----------------
 static void pwm_init(void) {
-    DDRD |= (1 << DDD3);  // PD3 = OC2B
-
-    // Fast PWM, non-inverting mode on OC2B
+    DDRD |= (1 << DDD3);  
     TCCR2A = (1 << COM2B1) | (1 << WGM21) | (1 << WGM20);
-
-    // Prescaler = 8
-    // PWM frequency = 16 MHz / (8 * 256) = 7812.5 Hz
     TCCR2B = (1 << CS21);
-
     OCR2B = 0;
 }
 
@@ -31,21 +25,7 @@ static void pwm_init(void) {
 #define PEDAL_MAX   950
 
 // ---------------- SOFTWARE STITCH ESTIMATION ----------------
-//
-// This replaces the Hall sensor.
-// You need to tune this value experimentally.
-//
-// Example:
-// If the machine makes about 8 stitches/second at full speed,
-// use 8.
-// If it makes about 12 stitches/second at full speed,
-// use 12.
-
 #define MAX_STITCHES_PER_SECOND  8UL
-
-// We store stitch count in hundredths of a stitch.
-// Example:
-// stitch_count_x100 = 1234 means 12.34 estimated stitches.
 
 volatile uint32_t stitch_count_x100 = 0;
 volatile uint8_t current_duty = 0;
@@ -128,44 +108,17 @@ static void uart_rx_interrupt_enable(void) {
     UCSR0B |= (1 << RXCIE0);
 }
 
-// ---------------- TIMER1: 1 ms TIMEBASE ----------------
-//
-// Timer1 creates a 1 ms interrupt.
-// Every 1 ms, it increments estimated stitch count based on current_duty.
-
+// Initialize timer 1 to CTC mode
 static void timer1_init_1ms(void) {
-    // CTC mode, TOP = OCR1A
     TCCR1A = 0;
     TCCR1B = (1 << WGM12);
-
-    // 16 MHz / 64 = 250 kHz
-    // 250 counts = 1 ms
     OCR1A = 249;
-
-    // Enable Timer1 compare match A interrupt
     TIMSK1 = (1 << OCIE1A);
-
-    // Start Timer1 with prescaler 64
     TCCR1B |= (1 << CS11) | (1 << CS10);
 }
 
 ISR(TIMER1_COMPA_vect) {
     static uint32_t accum = 0;
-
-    /*
-     * Estimate stitches from motor speed.
-     *
-     * At full duty:
-     * MAX_STITCHES_PER_SECOND stitches/sec
-     *
-     * We count in x100 units:
-     * MAX_STITCHES_PER_SECOND * 100 stitch-units/sec
-     *
-     * Since this interrupt runs every 1 ms:
-     * divide by 1000.
-     *
-     * Also scale by duty / 255.
-     */
 
     if (current_duty > 0) {
         accum += ((uint32_t)current_duty *
@@ -224,15 +177,9 @@ static void process_pedal_uart(void) {
                 if (val > 1023) {
                     val = 1023;
                 }
-
-                /*
-                 * Ignore a likely corrupted very-low packet if the last
-                 * good pedal value was clearly pressed.
-                 */
                 if (have_last_good &&
                     last_good_val > 450 &&
                     val < 80) {
-                    // Ignore likely corrupted value
                 } else {
                     last_good_val = (uint16_t)val;
                     have_last_good = 1;
@@ -247,13 +194,10 @@ static void process_pedal_uart(void) {
             }
         }
         else {
-            // Ignore non-digit characters.
-            // This allows lines like "ADC: 523\n".
+            index = 0;
         }
     }
 }
-
-// ---------------- SAFE READ OF 32-BIT VOLATILE ----------------
 
 static uint32_t get_stitch_count_x100_safe(void) {
     uint32_t copy;
@@ -268,14 +212,14 @@ static uint32_t get_stitch_count_x100_safe(void) {
 // ---------------- MAIN ----------------
 int main(void) {
 
-    // --- LCD FIRST ---
+    // Initialize LCD
     _delay_ms(200);
     lcd_init();
     LCD_rotate(1);
     LCD_setScreen(BLACK);
     LCD_brightness(255);
 
-    // --- Other peripherals ---
+    // Initialize other peripherals
     uart_init();
     pwm_init();
     timer1_init_1ms();
@@ -306,10 +250,7 @@ int main(void) {
         // Process incoming pedal UART values
         process_pedal_uart();
 
-        /*
-         * LCD UPDATE.
-         * This is intentionally throttled so the LCD does not dominate the CPU.
-         */
+        // LCD update
         lcd_div++;
 
         if (lcd_div >= 8000) {
